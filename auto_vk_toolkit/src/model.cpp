@@ -260,22 +260,22 @@ namespace avk
 
 		// Shader parameters:
 		if (AI_SUCCESS == aimat->Get(AI_MATKEY_COLOR_DIFFUSE, color)) {
-			result.mDiffuseReflectivity = glm::vec4(color.r, color.g, color.b, 0.0f);
+			result.mDiffuseReflectivity = glm::vec4(color.r, color.g, color.b, 1.0f);
 		}
 		if (AI_SUCCESS == aimat->Get(AI_MATKEY_COLOR_AMBIENT, color)) {
-			result.mAmbientReflectivity = glm::vec4(color.r, color.g, color.b, 0.0f);
+			result.mAmbientReflectivity = glm::vec4(color.r, color.g, color.b, 1.0f);
 		}
 		if (AI_SUCCESS == aimat->Get(AI_MATKEY_COLOR_SPECULAR, color)) {
-			result.mSpecularReflectivity = glm::vec4(color.r, color.g, color.b, 0.0f);
+			result.mSpecularReflectivity = glm::vec4(color.r, color.g, color.b, 1.0f);
 		}
 		if (AI_SUCCESS == aimat->Get(AI_MATKEY_COLOR_EMISSIVE, color)) {
-			result.mEmissiveColor = glm::vec4(color.r, color.g, color.b, 0.0f);
+			result.mEmissiveColor = glm::vec4(color.r, color.g, color.b, 1.0f);
 		}
 		if (AI_SUCCESS == aimat->Get(AI_MATKEY_COLOR_TRANSPARENT, color)) {
-			result.mTransparentColor = glm::vec4(color.r, color.g, color.b, 0.0f);
+			result.mTransparentColor = glm::vec4(color.r, color.g, color.b, 1.0f);
 		}
 		if (AI_SUCCESS == aimat->Get(AI_MATKEY_COLOR_REFLECTIVE, color)) {
-			result.mReflectiveColor = glm::vec4(color.r, color.g, color.b, 0.0f);
+			result.mReflectiveColor = glm::vec4(color.r, color.g, color.b, 1.0f);
 		}
 
 		if (AI_SUCCESS == aimat->Get(AI_MATKEY_OPACITY, floatVal)) {

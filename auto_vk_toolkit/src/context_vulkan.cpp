@@ -96,7 +96,7 @@ namespace avk
 	{
 		const auto& inst = context().vulkan_instance();
 #if VK_HEADER_VERSION >= 204
-		vk::createResultValueType(static_cast<vk::Result>(err), "check_vk_result");
+		vk::createResultValueType<const std::string>(static_cast<vk::Result>(err), "check_vk_result");
 #else
 		createResultValue(static_cast<vk::Result>(err), inst, "check_vk_result");
 #endif
