@@ -21,7 +21,7 @@ namespace avk
 
 		using frame_id_t = int64_t;
 		using outdated_swapchain_t = std::tuple<vk::UniqueHandle<vk::SwapchainKHR, DISPATCH_LOADER_CORE_TYPE>, std::vector<avk::image_view>, avk::renderpass, std::vector<avk::framebuffer>>;
-		using outdated_swapchain_resource_t = std::variant<vk::UniqueHandle<vk::SwapchainKHR, DISPATCH_LOADER_CORE_TYPE>, std::vector<avk::image_view>, avk::renderpass, std::vector<avk::framebuffer>, outdated_swapchain_t, avk::image_sampler, avk::graphics_pipeline, avk::buffer, avk::compute_pipeline>;
+		using outdated_swapchain_resource_t = std::variant<vk::UniqueHandle<vk::SwapchainKHR, DISPATCH_LOADER_CORE_TYPE>, std::vector<avk::image_view>, avk::renderpass, std::vector<avk::framebuffer>, outdated_swapchain_t, avk::image_sampler, avk::graphics_pipeline, avk::buffer, avk::compute_pipeline, avk::framebuffer>;
 
 		// A mutex used to protect concurrent command buffer submission
 		static std::mutex sSubmitMutex;
