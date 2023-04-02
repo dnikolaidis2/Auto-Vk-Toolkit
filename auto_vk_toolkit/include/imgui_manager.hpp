@@ -40,7 +40,7 @@ namespace avk
 		 *	The flag mAlreadyRendered is set in ::update and evaluated in ::render to determine if ::render
 		 *	shall create a new command buffer and render into it and submit it to the queue.
 		 */
-		void render_into_command_buffer(avk::command_buffer_t& aCommandBuffer, std::optional<std::reference_wrapper<const avk::framebuffer_t>> aTargetFramebuffer = {});
+		virtual void render_into_command_buffer(avk::command_buffer_t& aCommandBuffer, std::optional<std::reference_wrapper<const avk::framebuffer_t>> aTargetFramebuffer = {});
 
 		/**	This method can be used to prematurely render ImGui into the given command buffer---same as via
 		 *  render_into_command_buffer, but now handled through an avk::command.
@@ -88,7 +88,7 @@ namespace avk
 			mUsingSemaphoreInsteadOfFenceForFontUpload = true;
 		}
 
-	private:
+	protected:
 		void upload_fonts();
 		void construct_render_pass();
 
