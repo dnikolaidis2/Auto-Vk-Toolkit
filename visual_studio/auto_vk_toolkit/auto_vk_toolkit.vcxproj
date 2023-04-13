@@ -115,6 +115,7 @@
     <ClInclude Include="..\..\auto_vk\include\avk\mem_handle.hpp" />
     <ClInclude Include="..\..\auto_vk\include\avk\on_load.hpp" />
     <ClInclude Include="..\..\auto_vk\include\avk\on_store.hpp" />
+    <ClInclude Include="..\..\auto_vk\include\avk\micromap.hpp" />
     <ClInclude Include="..\..\auto_vk\include\avk\pipeline_stage.hpp" />
     <ClInclude Include="..\..\auto_vk\include\avk\push_constants.hpp" />
     <ClInclude Include="..\..\auto_vk\include\avk\query_pool.hpp" />
