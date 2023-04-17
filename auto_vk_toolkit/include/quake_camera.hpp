@@ -14,6 +14,7 @@ namespace avk
 	{
 	public:
 		quake_camera(std::string aName = "quake_camera", bool aIsEnabled = true);
+		quake_camera(camera&& camera, std::string aName = "quake_camera", bool aIsEnabled = false);
 		quake_camera(quake_camera&&) noexcept = default;
 		quake_camera(const quake_camera&) noexcept = default;
 		quake_camera& operator=(quake_camera&&) noexcept = default;

@@ -11,6 +11,16 @@ namespace avk
 	{
 	}
 
+	quake_camera::quake_camera(camera&& camera, std::string aName, bool aIsEnabled)
+		: camera(std::move(camera))
+		, invokee(std::move(aName), aIsEnabled)
+		, mRotationSpeed(0.001f)
+		, mMoveSpeed(4.5f) // 4.5 m/s
+		, mFastMultiplier(6.0f) // 27 m/s
+		, mSlowMultiplier(0.2f) // 0.9 m/s
+	{
+	}
+
 	quake_camera::~quake_camera()
 	{
 	}
