@@ -204,6 +204,11 @@ namespace avk
 			.setShadingRateCoarseSampleOrder(VK_TRUE);
 		auto activateShadingRateImage = shading_rate_image_extension_requested() && supports_shading_rate_image(context().physical_device());
 
+		auto shaderClockFeatureKHR = vk::PhysicalDeviceShaderClockFeaturesKHR{}
+			.setShaderSubgroupClock(VK_TRUE)
+			.setShaderDeviceClock(VK_TRUE);
+		auto shaderClockFeatureEnabled = shader_clock_extension_requested() && supports_shader_clock(context().physical_device());
+
 		// Always prepare the mesh shader feature descriptor, but only use it if the extension has been requested
 		auto meshShaderFeatureNV = VkPhysicalDeviceMeshShaderFeaturesNV{};
 		meshShaderFeatureNV.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MESH_SHADER_FEATURES_NV;
@@ -223,6 +228,12 @@ namespace avk
 		auto deviceFeatures = vk::PhysicalDeviceFeatures2()
 			.setFeatures(context().mRequestedPhysicalDeviceFeatures)
 			.setPNext(activateShadingRateImage ? &shadingRateImageFeatureNV : nullptr);
+
+		if (shaderClockFeatureEnabled)
+		{
+			shaderClockFeatureKHR.setPNext(deviceFeatures.pNext);
+			deviceFeatures.setPNext(&shaderClockFeatureKHR);
+		}
 
 		auto deviceVulkan11Features = context().mRequestedVulkan11DeviceFeatures;
 		deviceVulkan11Features.setPNext(&deviceFeatures);
@@ -872,6 +883,21 @@ namespace avk
 	{
 		auto allRequiredDeviceExtensions = get_all_required_device_extensions();
 		return std::find(std::begin(allRequiredDeviceExtensions), std::end(allRequiredDeviceExtensions), std::string(VK_NV_SHADING_RATE_IMAGE_EXTENSION_NAME)) != std::end(allRequiredDeviceExtensions);
+	}
+
+	bool context_vulkan::shader_clock_extension_requested()
+	{
+		auto allRequiredDeviceExtensions = get_all_required_device_extensions();
+		return std::find(std::begin(allRequiredDeviceExtensions), std::end(allRequiredDeviceExtensions), std::string(VK_KHR_SHADER_CLOCK_EXTENSION_NAME)) != std::end(allRequiredDeviceExtensions);
+	}
+
+	bool context_vulkan::supports_shader_clock(const vk::PhysicalDevice& device)
+	{
+		vk::PhysicalDeviceFeatures2 supportedExtFeatures;
+		auto shaderClockFeaturesKHR = vk::PhysicalDeviceShaderClockFeaturesKHR{};
+		supportedExtFeatures.setPNext(&shaderClockFeaturesKHR);
+		device.getFeatures2(&supportedExtFeatures);
+		return shaderClockFeaturesKHR.shaderDeviceClock && shaderClockFeaturesKHR.shaderSubgroupClock;
 	}
 
 	bool context_vulkan::mesh_shader_extension_requested()

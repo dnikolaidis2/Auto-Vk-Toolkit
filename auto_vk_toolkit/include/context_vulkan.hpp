@@ -208,9 +208,11 @@ namespace avk
 		/** Checks if the given physical device supports the shading rate image feature
 		 */
 		bool supports_shading_rate_image(const vk::PhysicalDevice& device);
+		bool supports_shader_clock(const vk::PhysicalDevice& device);
 		bool supports_mesh_shader(const vk::PhysicalDevice& device);
 
 		bool shading_rate_image_extension_requested();
+		bool shader_clock_extension_requested();
 		bool mesh_shader_extension_requested();
 #if VK_HEADER_VERSION >= 162
 		bool ray_tracing_pipeline_extension_requested();
