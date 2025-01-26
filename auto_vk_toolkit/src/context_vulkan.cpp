@@ -99,7 +99,9 @@ namespace avk
 	void context_vulkan::check_vk_result(VkResult err)
 	{
 		const auto& inst = context().vulkan_instance();
-#if VK_HEADER_VERSION >= 204
+#if VK_HEADER_VERSION >= 290
+		vk::detail::createResultValueType(static_cast<vk::Result>(err), "check_vk_result");
+#elif VK_HEADER_VERSION >= 216
 		vk::createResultValueType(static_cast<vk::Result>(err), "check_vk_result");
 #else
 		createResultValue(static_cast<vk::Result>(err), inst, "check_vk_result");
@@ -230,6 +232,15 @@ namespace avk
 			.setShadingRateCoarseSampleOrder(VK_TRUE);
 		auto activateShadingRateImage = shading_rate_image_extension_requested() && supports_shading_rate_image(context().physical_device());
 
+		auto customBorderColorFeatures = vk::PhysicalDeviceCustomBorderColorFeaturesEXT{}
+			.setCustomBorderColors(VK_TRUE);
+
+		auto shaderClockFeatures = vk::PhysicalDeviceShaderClockFeaturesKHR{}
+			.setShaderSubgroupClock(VK_TRUE);
+
+		customBorderColorFeatures.setPNext(&shaderClockFeatures);
+		shadingRateImageFeatureNV.setPNext(&customBorderColorFeatures);
+
 		auto queueCreateInfos = avk::queue::get_queue_config_for_DeviceCreateInfo(std::begin(mQueues), std::end(mQueues));
 		// Iterate over all vk::DeviceQueueCreateInfo entries and set the queue priorities pointers properly (just to be safe!)
 		for (auto i = 0; i < std::get<0>(queueCreateInfos).size(); ++i) {
@@ -241,7 +252,7 @@ namespace avk
 
 		auto deviceFeatures = vk::PhysicalDeviceFeatures2()
 			.setFeatures(context().mRequestedPhysicalDeviceFeatures)
-			.setPNext(activateShadingRateImage ? &shadingRateImageFeatureNV : nullptr);
+			.setPNext(activateShadingRateImage ? (void*)&shadingRateImageFeatureNV : (void*)&customBorderColorFeatures);
 
 		auto deviceVulkan11Features = context().mRequestedVulkan11DeviceFeatures;
 		deviceVulkan11Features.setPNext(&deviceFeatures);
